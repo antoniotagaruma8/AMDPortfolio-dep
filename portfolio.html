@@ -550,16 +550,52 @@
         footer {
             background-color: var(--primary-color);
             color: var(--text-light);
-            text-align: center;
             padding: 60px 0;
+        }
+
+        .footer-layout {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
         }
 
         .footer-quote {
             font-family: var(--font-heading);
             font-size: 1.5rem;
-            max-width: 700px;
-            margin: 0 auto 30px auto;
             font-style: italic;
+            flex: 1;
+        }
+
+        .footer-files {
+            flex: 0 0 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            border-radius: 6px;
+        }
+
+        .footer-files h4 {
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .file-link {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .file-link:hover {
+            color: white;
+            padding-left: 5px;
         }
 
         .contact-btn {
@@ -580,8 +616,16 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
             header h1 { font-size: 2.5rem; }
-            .split-layout, .context-grid, .load-grid {
+            .split-layout, .context-grid, .load-grid, .footer-layout {
                 grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+            .footer-quote {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .footer-files {
+                width: 100%;
             }
             .philosophy-img { height: 250px; }
         }
@@ -931,7 +975,17 @@
     <!-- FOOTER -->
     <footer>
         <div class="container">
-            <p class="footer-quote">My journey as a learning architect is ongoing. I am always seeking new blueprints, stronger materials, and better designs to build more effective and engaging learning experiences.</p>
+            <div class="footer-layout">
+                <p class="footer-quote">My journey as a learning architect is ongoing. I am always seeking new blueprints, stronger materials, and better designs to build more effective and engaging learning experiences.</p>
+                
+                <div class="footer-files">
+                    <h4>📂 Raw Documentation</h4>
+                    <a href="https://drive.google.com/drive/folders/1kLYrw8cJocYRN8AQXPuHcx_3ndh-U4ja?usp=drive_link" class="file-link">📄 Week 1 Documentation</a>
+                    <a href="https://drive.google.com/drive/folders/1vrUlTS1AEkA8zaMms4-OwCnMXXcKR0Ey?usp=sharing" class="file-link">📄 Week 2 Documentation</a>
+                    <a href="https://drive.google.com/drive/folders/153K6mEZCxmDjvqoPWlnn3-FsNb-z2aYe?usp=drive_link" class="file-link">📄 Week 3 Documentation</a>
+                    <a href="https://drive.google.com/drive/folders/1BZtrG8NYSUFa9gcWqmssfyz9JgR2rZS0?usp=drive_link" class="file-link">📄 Week 4 Documentation</a>
+                </div>
+            </div>
         </div>
     </footer>
 
