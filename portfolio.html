@@ -972,6 +972,92 @@
         </div>
     </section>
 
+    <!-- SECTION 7: SPANISH CIVIL WAR -->
+    <section id="civil-war" style="background-color: var(--bg-off-white);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Section 7: CLIL & Narrative Design</span>
+                <h2>The Spanish Civil War</h2>
+                <p>Turning history into a role-play experience for 4th ESO (CLIL).</p>
+            </div>
+
+            <div class="split-layout">
+                <div class="philosophy-content">
+                    <h3>The Challenge</h3>
+                    <p><strong>Context:</strong> 4th ESO History/English (CLIL). The topic is heavy and complex.<br>
+                    <strong>Goal:</strong> Move beyond memorizing dates to understanding human impact and bias.</p>
+                    
+                    <div class="philosophy-block" style="margin-top: 20px;">
+                        <h4>The Hook: History Detective</h4>
+                        <p>Students must identify the fabrication among three claims:
+                        <br>1. Children evacuated to Mexico/USSR.
+                        <br>2. Pigeons with spy cameras used by both sides.
+                        <br>3. Volunteers fought without government permission.
+                        <br><em>(Activates critical thinking about 1930s technology and geopolitics).</em></p>
+                    </div>
+
+                    <div class="philosophy-block">
+                        <h4>The Core Activity: Frontline Correspondents</h4>
+                        <p>Students adopt personas (Journalist, Soldier, Civilian) and write biased "Telegrams" reporting on key events like the Bombing of Guernica. This forces them to process facts through an emotional and ideological lens.</p>
+                    </div>
+                </div>
+
+                <div class="blueprint-card" style="background: white; color: var(--text-dark); border: 1px solid #ccc;">
+                    <div style="border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                        <strong style="font-family: var(--font-heading); color: var(--primary-color);">📨 TELEGRAM</strong>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem;">APRIL 1937</span>
+                    </div>
+                    <p style="font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.4; margin-bottom: 20px;">
+                        STOP. GUERNICA BURNING. STOP. CONDOR LEGION SKIES BLACK. STOP. CIVILIAN TARGETS DESTROYED. STOP. DEMOCRACY WEEPS. STOP. SEND HELP.
+                    </p>
+                    <div style="font-size: 0.8rem; color: #555; border-top: 1px dashed #ccc; padding-top: 10px;">
+                        <strong>ROLE:</strong> International Volunteer<br>
+                        <strong>BIAS:</strong> Pro-Republican<br>
+                        <strong>OBJECTIVE:</strong> Solicit international intervention.
+                    </div>
+                </div>
+            </div>
+
+            <div class="analysis-table-wrapper" style="margin-top: 50px;">
+                <h3>Design Analysis</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Criteria</th>
+                            <th>Analysis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Context & Objectives</td>
+                            <td><strong>Target:</strong> 4th ESO (B2). <br><strong>Goal:</strong> Analyze socio-political causes and international intervention while developing empathy.</td>
+                        </tr>
+                        <tr>
+                            <td>The "Big Idea"</td>
+                            <td>Civil conflict is a "microcosm" for global ideologies. The lesson asks: "Would you intervene?"</td>
+                        </tr>
+                        <tr>
+                            <td>Engagement Strategy</td>
+                            <td><strong>Role-Play:</strong> The "Frontline Correspondents" activity breaks the monotony of lectures. Writing telegrams requires synthesizing facts with emotion.</td>
+                        </tr>
+                        <tr>
+                            <td>Differentiation</td>
+                            <td><strong>Tiered Worksheets:</strong> L1/L2/L3 worksheets allow assessment of the same core concepts at different linguistic proficiency levels.</td>
+                        </tr>
+                        <tr>
+                            <td>AI Integration</td>
+                            <td>Planned using "ESO Smart Lesson Planner 2026" to ensure LOMLOE compliance (Competencies CC3, CPSAA4) and legal rigor.</td>
+                        </tr>
+                        <tr>
+                            <td>Reflection</td>
+                            <td><strong>Strength:</strong> High engagement through persona adoption.<br><strong>Improvement:</strong> Time management is tight (55 mins). The lecture portion needs to be concise to allow for the role-play.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer>
         <div class="container">
@@ -1019,29 +1105,38 @@
             barGermane.style.width = gVal + '%';
 
             if (total > 100) {
-                if (iVal > 60) {
+                if (eVal > 40) {
+                    feedback.innerHTML = "<strong>⚠️ COGNITIVE OVERLOAD (" + total + "%)</strong><br><strong>Diagnosis:</strong> Drowning in noise. The high Extraneous Load is pushing the student past their limit.<br><strong>Action Required:</strong> Ruthlessly cut the clutter. Remove decorative images, simplify text, and reduce choices.";
+                } else if (iVal > 60) {
                     feedback.innerHTML = "<strong>⚠️ COGNITIVE OVERLOAD (" + total + "%)</strong><br><strong>Diagnosis:</strong> The structural weight is too heavy. The material is inherently difficult (High Intrinsic Load).<br><strong>Action Required:</strong> You cannot 'design' your way out of this. You must <strong>scaffold</strong>: break concepts into chunks, use analogies, or pre-teach vocabulary.";
                 } else {
                     feedback.innerHTML = "<strong>⚠️ COGNITIVE OVERLOAD (" + total + "%)</strong><br><strong>Diagnosis:</strong> The Working Memory 'bucket' is overflowing. Combined weight exceeds capacity. Learning has stopped.<br><strong>Action Required:</strong> Immediate triage. Eliminate Extraneous Load (distractions) first. Then check if the task is too difficult.";
                 }
                 feedback.style.borderLeftColor = "#ef4444";
                 feedback.style.backgroundColor = "#fef2f2";
-            } else if (eVal > 30) {
-                feedback.innerHTML = "<strong>⚠️ High Distraction</strong><br>Extraneous load is critically high. The design is competing for attention against the content. Students are using mental energy to filter out distractions (clutter, confusing fonts, unclear instructions) instead of learning.<br><strong>Action Required:</strong> Simplify the visual hierarchy, remove non-essential decorative elements, and clarify instructions to reduce this 'bad' load.";
-                feedback.style.borderLeftColor = "#f59e0b";
-                feedback.style.backgroundColor = "#fffbeb";
-            } else if (gVal < 20 && total < 80) {
-                feedback.innerHTML = "<strong>ℹ️ Passive Learning (Under-utilized)</strong><br><strong>Diagnosis:</strong> The room is empty. Students have mental energy available, but aren't asked to use it.<br><strong>Action Required:</strong> Increase Germane Load. Add 'Desirable Difficulties': ask open-ended questions, require synthesis, or solve problems.";
-                feedback.style.borderLeftColor = "#3b82f6";
-                feedback.style.backgroundColor = "#eff6ff";
-            } else if (iVal > 80) {
-                feedback.innerHTML = "<strong>⚠️ Structural Failure Imminent</strong><br><strong>Diagnosis:</strong> Intrinsic Load is crushing. The concept is too abstract for the learner's current level.<br><strong>Action Required:</strong> Deploy heavy scaffolding. Use worked examples, graphic organizers, or step-by-step guides.";
-                feedback.style.borderLeftColor = "#f59e0b";
-                feedback.style.backgroundColor = "#fffbeb";
             } else {
-                feedback.innerHTML = "<strong>✅ Optimal Learning Architecture</strong><br><strong>Diagnosis:</strong> The 'Sweet Spot'. Distractions are low, difficulty is managed, creating space for deep thinking.<br><strong>Result:</strong> Students are actively constructing schemas and storing information in Long Term Memory.";
-                feedback.style.borderLeftColor = "#10b981";
-                feedback.style.backgroundColor = "#ecfdf5";
+                // UNDER CAPACITY SCENARIOS
+                if (iVal < 15) {
+                    feedback.innerHTML = "<strong>⚠️ Under-Challenged (Boredom)</strong><br><strong>Diagnosis:</strong> The task is too easy. There is not enough Intrinsic Load to engage the student's cognitive faculties.<br><strong>Action Required:</strong> Increase the difficulty or complexity of the task to maintain engagement and facilitate learning.";
+                    feedback.style.borderLeftColor = "#94a3b8";
+                    feedback.style.backgroundColor = "#f8fafc";
+                } else if (eVal > 30) {
+                    feedback.innerHTML = "<strong>⚠️ High Distraction</strong><br>Extraneous load is critically high. The design is competing for attention against the content. Students are using mental energy to filter out distractions (clutter, confusing fonts, unclear instructions) instead of learning.<br><strong>Action Required:</strong> Simplify the visual hierarchy, remove non-essential decorative elements, and clarify instructions to reduce this 'bad' load.";
+                    feedback.style.borderLeftColor = "#f59e0b";
+                    feedback.style.backgroundColor = "#fffbeb";
+                } else if (iVal > 75) {
+                    feedback.innerHTML = "<strong>⚠️ Structural Failure Imminent</strong><br><strong>Diagnosis:</strong> Intrinsic Load is crushing. Even if they have 'space', the concept is too abstract for the learner's current level.<br><strong>Action Required:</strong> Deploy heavy scaffolding. Use worked examples, graphic organizers, or step-by-step guides.";
+                    feedback.style.borderLeftColor = "#f59e0b";
+                    feedback.style.backgroundColor = "#fffbeb";
+                } else if (gVal < 25) {
+                    feedback.innerHTML = "<strong>ℹ️ Passive Learning (Under-utilized)</strong><br><strong>Diagnosis:</strong> The room is empty. Students have mental energy available, but aren't asked to use it.<br><strong>Action Required:</strong> Increase Germane Load. Add 'Desirable Difficulties': ask open-ended questions, require synthesis, or solve problems.";
+                    feedback.style.borderLeftColor = "#3b82f6";
+                    feedback.style.backgroundColor = "#eff6ff";
+                } else {
+                    feedback.innerHTML = "<strong>✅ Optimal Learning Architecture</strong><br><strong>Diagnosis:</strong> The 'Sweet Spot'. Distractions are low, difficulty is managed, creating space for deep thinking.<br><strong>Result:</strong> Students are actively constructing schemas and storing information in Long Term Memory.";
+                    feedback.style.borderLeftColor = "#10b981";
+                    feedback.style.backgroundColor = "#ecfdf5";
+                }
             }
         }
 
