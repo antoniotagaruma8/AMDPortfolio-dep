@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Architecture of Learning | Antonio Tagaruma Garcia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&family=Roboto+Mono:wght@400;500&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-color: #0f172a; /* Deep Navy (Blueprint background) */
+            --accent-color: #3b82f6; /* Blueprint Blue */
+            --text-dark: #334155;
+            --text-light: #f8fafc;
+            --bg-light: #ffffff;
+            --bg-off-white: #f1f5f9;
+            --border-color: #cbd5e1;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 100px 0;
+            text-align: center;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover;
+            background-position: center;
+            border-bottom: 5px solid var(--accent-color);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        header .name {
+            font-size: 1rem;
+            opacity: 0.8;
+            letter-spacing: 2px;
+        }
+
+        /* --- THE HOOK --- */
+        .hook-section {
+            background-color: var(--bg-off-white);
+            padding: 60px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hook-text {
+            font-size: 1.5rem;
+            font-weight: 300;
+            font-family: var(--font-heading);
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--primary-color);
+        }
+
+        .hook-highlight {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* --- SECTIONS GENERAL --- */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .section-tag {
+            font-family: var(--font-mono);
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* --- SECTION 1: PHILOSOPHY (Split Screen) --- */
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .philosophy-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .philosophy-block {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .philosophy-img {
+            width: 100%;
+            height: 400px;
+            background-color: #ddd;
+            background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800');
+            background-size: cover;
+            background-position: center;
+            border-radius: 4px;
+            box-shadow: 10px 10px 0px var(--primary-color);
+        }
+
+        /* --- SECTION 2: FOUNDATIONS (Cards) --- */
+        .bg-dark {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+        
+        .bg-dark h2 { color: var(--text-light); }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .blueprint-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--accent-color);
+            padding: 30px;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* --- SLOT MACHINE ANIMATION --- */
+        .slot-machine-container {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            z-index: 0;
+            opacity: 0.5;
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+        .slot-col {
+            width: 60px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .slot-strip {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            animation: scroll-slot 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+        }
+        .slot-item {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .col-1 .slot-strip { animation-delay: 0s; }
+        .col-2 .slot-strip { animation-delay: 0.5s; }
+        .col-3 .slot-strip { animation-delay: 1.0s; }
+
+        @keyframes scroll-slot {
+            0%, 20% { transform: translateY(0); filter: blur(0); }
+            22%, 23% { filter: blur(4px); }
+            25%, 45% { transform: translateY(-60px); filter: blur(0); }
+            47%, 48% { filter: blur(4px); }
+            50%, 70% { transform: translateY(-120px); filter: blur(0); }
+            72%, 73% { filter: blur(4px); }
+            75%, 95% { transform: translateY(-180px); filter: blur(0); }
+            100% { transform: translateY(-180px); filter: blur(0); }
+        }
+
+        /* --- BRICK WALL ANIMATION --- */
+        .brick-wall-container {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .brick {
+            position: absolute;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background: var(--primary-color);
+            border: 1px solid var(--accent-color);
+            color: var(--text-light);
+            width: 80px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+            opacity: 0;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+        
+        /* Brick Positions (Staggered Wall Pattern) */
+        /* Row 1 (Bottom) */
+        .b-r1-1 { bottom: 20px; left: 10%; }
+        .b-r1-2 { bottom: 20px; left: 40%; }
+        .b-r1-3 { bottom: 20px; left: 70%; }
+        
+        /* Row 2 (Middle - Staggered) */
+        .b-r2-1 { bottom: 55px; left: 25%; }
+        .b-r2-2 { bottom: 55px; left: 55%; }
+        
+        /* Row 3 (Top) */
+        .b-r3-1 { bottom: 90px; left: 10%; }
+        .b-r3-2 { bottom: 90px; left: 40%; }
+        .b-r3-3 { bottom: 90px; left: 70%; }
+
+        @keyframes lay-brick {
+            0% { transform: translateY(-150px) scale(0.8); opacity: 0; }
+            10% { transform: translateY(0) scale(1); opacity: 1; } /* Land */
+            85% { opacity: 1; }
+            95% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 0; }
+        }
+
+        /* --- COLLABORATION ANIMATION --- */
+        .collab-scene {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #f1f5f9;
+            overflow: hidden;
+        }
+        .collab-card {
+            position: absolute;
+            background: white;
+            padding: 5px 12px;
+            border: 1px solid var(--primary-color);
+            border-radius: 3px;
+            font-weight: bold;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        .collab-hand {
+            position: absolute;
+            font-size: 1.8rem;
+            z-index: 10;
+            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.2));
+        }
+        
+        /* Animation Keyframes */
+        .c-card-1 { top: 70%; left: 10%; transform: rotate(-15deg); animation: placeCard1 4s infinite ease-in-out; }
+        .c-hand-1 { top: 100%; left: 10%; animation: moveHand1 4s infinite ease-in-out; }
+        
+        .c-card-2 { top: 10%; left: 40%; transform: rotate(20deg); animation: placeCard2 4s infinite ease-in-out; }
+        .c-hand-2 { top: -20%; left: 40%; animation: moveHand2 4s infinite ease-in-out; }
+        
+        .c-card-3 { top: 60%; left: 80%; transform: rotate(5deg); animation: placeCard3 4s infinite ease-in-out; }
+        .c-hand-3 { top: 100%; left: 80%; animation: moveHand3 4s infinite ease-in-out; }
+
+        @keyframes moveHand1 { 0%, 100% { top: 100%; left: 10%; } 20% { top: 70%; } 40% { top: 40%; left: 25%; } 50% { top: 100%; left: 25%; } }
+        @keyframes placeCard1 { 0%, 20% { top: 70%; left: 10%; transform: rotate(-15deg); } 40%, 100% { top: 40%; left: 25%; transform: rotate(0deg); } }
+
+        @keyframes moveHand2 { 0%, 100% { top: -20%; left: 40%; } 25% { top: -20%; } 45% { top: 10%; } 65% { top: 40%; left: 45%; } 75% { top: -20%; left: 45%; } }
+        @keyframes placeCard2 { 0%, 45% { top: 10%; left: 40%; transform: rotate(20deg); } 65%, 100% { top: 40%; left: 45%; transform: rotate(0deg); } }
+
+        @keyframes moveHand3 { 0%, 100% { top: 100%; left: 80%; } 50% { top: 100%; } 70% { top: 60%; } 90% { top: 40%; left: 65%; } 95% { top: 100%; left: 65%; } }
+        @keyframes placeCard3 { 0%, 70% { top: 60%; left: 80%; transform: rotate(5deg); } 90%, 100% { top: 40%; left: 65%; transform: rotate(0deg); } }
+
+        .blueprint-card h3 {
+            font-family: var(--font-mono);
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .visual-evidence {
+            margin-top: 20px;
+            height: 150px;
+            background: #fff;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            border: 2px dashed var(--text-dark);
+        }
+
+        /* --- SECTION 3: CONTEXT --- */
+        .context-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+        }
+
+        .context-visual {
+            background-color: var(--bg-off-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .graphic-placeholder {
+            text-align: center;
+            font-family: var(--font-heading);
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .feature-list li {
+            margin-bottom: 15px;
+            list-style: none;
+        }
+        
+        .feature-list strong {
+            color: var(--primary-color);
+            font-family: var(--font-heading);
+        }
+
+        /* --- SECTION 4: PSYCHOLOGY (3 Columns) --- */
+        .load-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .load-item {
+            padding: 20px;
+            background: var(--bg-off-white);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .load-item h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .insight-box {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        /* --- SIMULATOR --- */
+        .simulator-box {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin: 40px 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .slider-container {
+            margin-bottom: 20px;
+        }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+        input[type=range] {
+            width: 100%;
+            cursor: pointer;
+            accent-color: var(--accent-color);
+        }
+        .memory-bar-wrapper {
+            height: 40px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: flex;
+            border: 1px solid var(--border-color);
+        }
+        .bar-segment {
+            height: 100%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .bar-intrinsic { background-color: #3b82f6; }
+        .bar-extraneous { background-color: #ef4444; }
+        .bar-germane { background-color: #10b981; }
+        
+        .feedback-display {
+            padding: 15px;
+            background: var(--bg-off-white);
+            border-left: 4px solid var(--primary-color);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        /* --- FOOTPRINT ANIMATIONS --- */
+        .footprint-gallery {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .footprint-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .footprint-icon { font-size: 2.5rem; z-index: 2; }
+        .footprint-label { font-size: 0.75rem; font-family: var(--font-mono); text-align: center; z-index: 2; margin-top: 5px; }
+        .emission-pulse {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.2);
+            z-index: 1;
+            animation: pulse-ring 2s infinite ease-out;
+        }
+        @keyframes pulse-ring {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        }
+
+        /* --- SECTION 5: ANALYSIS (Table) --- */
+        .analysis-table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: var(--font-body);
+        }
+
+        th, td {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--bg-off-white);
+        }
+
+        td:first-child {
+            font-weight: bold;
+            color: var(--primary-color);
+            width: 20%;
+        }
+
+        /* --- AI SECTION STYLES --- */
+        .ai-prompt-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            padding: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #a5b4fc;
+            border-left: 3px solid var(--accent-color);
+            margin: 20px 0;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .footer-quote {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            font-style: italic;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background-color: #2563eb;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .split-layout, .context-grid, .load-grid {
+                grid-template-columns: 1fr;
+            }
+            .philosophy-img { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <header>
+        <div class="container">
+            <span class="subtitle">PORTFOLIO OF ACTIVITIES & MATERIALS DESIGN</span>
+            <h1>The Architecture<br>of Learning</h1>
+            <p class="name">ANTONIO TAGARUMA GARCIA</p>
+        </div>
+    </header>
+
+    <!-- THE HOOK -->
+    <div class="hook-section">
+        <div class="container">
+            <p style="font-size: 1.1rem; max-width: 800px; margin: 0 auto 25px auto; color: var(--text-dark);">
+                This portfolio is a curated collection of my work, but more importantly, it's a reflection of my evolving teaching philosophy. It documents my journey from a traditional instructor to a modern learning architect.
+            </p>
+            <p class="hook-text">
+                "I used to view teaching as filling a bucket. Now, I see it as <span class="hook-highlight">designing a building</span>. My goal is to use structure, authenticity, and psychology to engineer understanding."
+            </p>
+        </div>
+    </div>
+
+    <!-- SECTION 1: PHILOSOPHY -->
+    <section id="philosophy">
+        <div class="container">
+            <div class="split-layout">
+                <div class="philosophy-content">
+                    <div class="section-header">
+                        <span class="section-tag">Section 1: The Philosophy</span>
+                        <h2>From "Shouting" to "Designing"</h2>
+                    </div>
+                    <div class="philosophy-block">
+                        <h4>The Shift</h4>
+                        <p>My early teaching relied on the force of my voice. I've since learned from mentors like Prof. Anne that true authority comes from presence and well-crafted materials, not volume. My goal is now a "TED Talk" style of delivery: calm, confident, and compelling, where the lesson's architecture does the heavy lifting and sparks curiosity organically.</p>
+                    </div>
+                    <div class="philosophy-block">
+                        <h4>The Method</h4>
+                        <p>My design process is grounded in <strong>Cognitive Load Theory</strong>. This psychological framework helps me create materials that aren't just aesthetically pleasing, but are engineered to reduce unnecessary mental friction (Extraneous Load), allowing students to focus their cognitive resources on understanding the core concepts (Germane Load).</p>
+                    </div>
+                </div>
+                <div class="philosophy-visual">
+                    <div class="philosophy-img" title="Teacher presenting in a clean environment"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: FOUNDATIONS -->
+    <section id="foundations" class="bg-dark">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Section 2: The Foundations (Week 1)</span>
+                <h2>Structure Creates Safety</h2>
+                <p style="opacity: 0.8;">In Week 1, I learned that defined rules make activities "healthy and productive".</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="blueprint-card">
+                    <!-- Slot Machine Animation -->
+                    <div class="slot-machine-container">
+                        <div class="slot-col col-1">
+                            <div class="slot-strip">
+                                <div class="slot-item">The</div>
+                                <div class="slot-item">A</div>
+                                <div class="slot-item">My</div>
+                                <div class="slot-item">The</div>
+                            </div>
+                        </div>
+                        <div class="slot-col col-2">
+                            <div class="slot-strip">
+                                <div class="slot-item">Cat</div>
+                                <div class="slot-item">Dog</div>
+                                <div class="slot-item">Bird</div>
+                                <div class="slot-item">Cat</div>
+                            </div>
+                        </div>
+                        <div class="slot-col col-3">
+                            <div class="slot-strip">
+                                <div class="slot-item">Sits</div>
+                                <div class="slot-item">Runs</div>
+                                <div class="slot-item">Flies</div>
+                                <div class="slot-item">Sits</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="position: relative; z-index: 2;">
+                        <h3>The Artifact</h3>
+                        <p><strong>The Sentence Architect Game.</strong> Instead of a dry grammar lecture, students get "Blueprint" cards (e.g., `[Article] [Adjective] [Noun]`) and physical "Component" tokens (words like 'The', 'smart', 'fox'). Their task is to physically construct the sentence according to the blueprint.</p>
+                    </div>
+                </div>
+                <div class="blueprint-card">
+                    <div class="brick-wall-container">
+                        <!-- Row 1 -->
+                        <div class="brick b-r1-1" style="animation: lay-brick 10s infinite 0s;">The</div>
+                        <div class="brick b-r1-2" style="animation: lay-brick 10s infinite 0.5s;">Smart</div>
+                        <div class="brick b-r1-3" style="animation: lay-brick 10s infinite 1.0s;">Fox</div>
+                
+                        <!-- Row 2 (Connectors) -->
+                        <div class="brick b-r2-1" style="animation: lay-brick 10s infinite 1.5s; background: var(--accent-color);">Jumps</div>
+                        <div class="brick b-r2-2" style="animation: lay-brick 10s infinite 2.0s; background: var(--accent-color);">Over</div>
+                
+                        <!-- Row 3 -->
+                        <div class="brick b-r3-1" style="animation: lay-brick 10s infinite 2.5s;">The</div>
+                        <div class="brick b-r3-2" style="animation: lay-brick 10s infinite 3.0s;">Lazy</div>
+                        <div class="brick b-r3-3" style="animation: lay-brick 10s infinite 3.5s;">Dog</div>
+                    </div>
+                    <div style="position: relative; z-index: 2;">
+                        <h3>Why it works</h3>
+                        <p>This approach transforms an abstract concept (syntax) into a tangible, physical task. It leverages principles of <strong>gamification</strong> and <strong>kinesthetic learning</strong>, creating a memorable experience that scaffolds the rules of sentence structure far more effectively than a worksheet.</p>
+                    </div>
+                </div>
+                <div class="blueprint-card">
+                    <h3>Visual Evidence</h3>
+                    <div class="visual-evidence" style="padding: 0; border: 2px solid var(--border-color); overflow: hidden;">
+                        <div class="collab-scene">
+                            <div class="collab-card c-card-1">The</div> <div class="collab-hand c-hand-1">👇</div>
+                            <div class="collab-card c-card-2">Big</div> <div class="collab-hand c-hand-2">👇🏿</div>
+                            <div class="collab-card c-card-3">Dog</div> <div class="collab-hand c-hand-3">👇🏻</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px; font-size: 0.9rem; color: var(--border-color);">The animation depicts the core of the activity: collaborative construction. Students work together, negotiating word placement and debating grammar rules in a low-stakes, engaging environment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: CONTEXT -->
+    <section id="context">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Section 3: The Context (Week 2 & 3)</span>
+                <h2>Authentic & Flexible Design</h2>
+            </div>
+
+            <div class="context-grid">
+                <div class="context-visual">
+                    <div class="graphic-placeholder">
+                        <div style="font-size: 4rem;">🍔 vs 🚗</div>
+                        <p>Cheeseburger vs. Car</p>
+                    </div>
+                </div>
+                <div class="context-content">
+                    <p style="margin-bottom: 20px;"><strong>The Problem of Homogeneity:</strong> Textbooks often present a one-size-fits-all view, failing to connect with the diverse realities of students. My goal is to design flexible materials that are both authentic to the subject and personally relevant to my learners.</p>
+                    
+                    <ul class="feature-list">
+                        <li><strong>The Artifact:</strong> A multi-part module on understanding personal Carbon Footprints.</li>
+                        <li><strong>Authentic Hook:</strong> The lesson began not with a definition, but a riddle: "I have no weight, but you can see me. I follow you everywhere, but you can't run from me. The more you have, the heavier the world gets. What am I?" (Answer: Your carbon footprint). This creates immediate curiosity.</li>
+                        <li><strong>Tiered Differentiation:</strong> I designed two worksheet paths. <strong>L2 (Standard)</strong> focused on identifying direct vs. indirect emissions with clear examples. <strong>L3 (Advanced)</strong> required students to research the CO2e (carbon dioxide equivalent) of specific items and justify their calculations, introducing a higher cognitive challenge.</li>
+                        <li><strong>Gamified Engagement:</strong> The core activity was the "50kg Carbon Budget" game. In groups, students were given a weekly budget and a list of activities/products with associated carbon costs (e.g., a beef burger = 3kg, a bus ride = 0.5kg). They had to negotiate trade-offs to "survive" the week without exceeding their budget, forcing real-world problem-solving.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: PSYCHOLOGY -->
+    <section id="psychology" style="background-color: var(--bg-off-white);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Section 4: The Psychology (Week 3 & 4)</span>
+                <h2>Managing the Load</h2>
+            </div>
+
+            <div class="load-grid">
+                <div class="load-item">
+                    <h4>Intrinsic</h4>
+                    <p>The inherent, unavoidable difficulty of the topic itself. (e.g., Quantum physics is harder than basic addition).</p>
+                </div>
+                <div class="load-item">
+                    <h4>Extraneous</h4>
+                    <p>Unnecessary mental work created by poor design—cluttered slides, confusing instructions, bad fonts. This is "bad" load that must be eliminated.</p>
+                </div>
+                <div class="load-item">
+                    <h4>Germane</h4>
+                    <p>The "good" load. This is the desirable mental effort used to process information, make connections, and build understanding.</p>
+                </div>
+            </div>
+
+            <!-- Interactive Simulator -->
+            <div class="simulator-box">
+                <h3 style="text-align: center; margin-bottom: 20px;">Cognitive Load Simulator</h3>
+                <p style="text-align: center; margin-bottom: 20px; font-size: 0.9rem;">Adjust the sliders to see how different loads affect Working Memory Capacity.</p>
+                
+                <div class="slider-container">
+                    <div class="slider-label"><span>Intrinsic (Difficulty)</span> <span id="val-intrinsic">40%</span></div>
+                    <input type="range" id="range-intrinsic" min="0" max="100" value="40">
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-label"><span>Extraneous (Distractions)</span> <span id="val-extraneous">40%</span></div>
+                    <input type="range" id="range-extraneous" min="0" max="100" value="40">
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-label"><span>Germane (Learning Effort)</span> <span id="val-germane">10%</span></div>
+                    <input type="range" id="range-germane" min="0" max="100" value="10">
+                </div>
+
+                <div class="memory-bar-wrapper">
+                    <div id="bar-intrinsic" class="bar-segment bar-intrinsic" style="width: 40%">Intrinsic</div>
+                    <div id="bar-extraneous" class="bar-segment bar-extraneous" style="width: 40%">Extraneous</div>
+                    <div id="bar-germane" class="bar-segment bar-germane" style="width: 10%">Germane</div>
+                </div>
+                
+                <div class="feedback-display" id="load-feedback">
+                    Analyzing load...
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>The Insight</h3>
+                <p>Learning fails when total cognitive load exceeds a student's working memory capacity. My primary role as a learning architect is to ruthlessly eliminate Extraneous Load (the "noise") so that students can dedicate their finite mental resources to grappling with the Intrinsic Load (the "content") and engaging in Germane Load (the "learning").</p>
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.2); margin: 20px 0;">
+                <p><strong>Future Application:</strong> This principle is now my design compass. Before finalizing any material, I will perform a "Cognitive Load Audit": <br>1. <strong>Simplify:</strong> Is every element on this page serving a purpose? <br>2. <strong>Clarify:</strong> Are the instructions impossible to misinterpret? <br>3. <strong>Scaffold:</strong> Is the intrinsic difficulty broken down into manageable steps? <br>This ensures that the 'struggle' students experience is always productive and focused on the concept, not on deciphering my materials.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: AI & REALITY -->
+    <section id="ai-integration" class="bg-dark">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Section 5: The Modern Toolkit</span>
+                <h2>Pedagogy Meets AI</h2>
+                <p style="opacity: 0.8;">Bridging classical theory with the needs of the Digital Generation.</p>
+            </div>
+
+            <div class="split-layout">
+                <div class="philosophy-content">
+                    <h3 style="color: var(--accent-color);">The Reality Gap</h3>
+                    <p style="margin-bottom: 20px; color: var(--text-light);">
+                        Pedagogical theory rightly demands <strong>differentiation</strong> and <strong>authentic materials</strong>. The reality is that hand-crafting unique, relevant resources for a diverse class of 30+ students is a logistical impossibility for one teacher. This is where AI transitions from a novelty to an essential "Architect's Power Tool." It allows a single educator to scale bespoke learning experiences, bridging the gap between theory and classroom practice.
+                    </p>
+                    
+                    <div class="ai-prompt-box">
+                        <span style="color: #fff; font-weight: bold;">// THE PROMPT:</span><br><br>
+                        "You are an expert ESL curriculum designer. Your task is to create three versions of a 200-word reading text about the 'Greenhouse Effect' for a 4th ESO class with mixed abilities. <br><br>
+                        1. <strong>Scaffolded Version (A2 Level):</strong> Use high-frequency vocabulary, simple sentence structures (S+V+O), and include a glossary of 5 key terms.<br>
+                        2. <strong>Core Version (B1 Level):</strong> Align with standard curriculum expectations for this age group. Use appropriate terminology and complex sentences.<br>
+                        3. <strong>High-Interest Version (B1 Level):</strong> Explain the concept using an analogy relevant to Gen-Z, like a 'planet-sized gamer PC overheating because its cooling fans are blocked.' Maintain B1 complexity but maximize engagement."
+                    </div>
+                </div>
+
+                <div class="card-grid" style="margin-top: 0; grid-template-columns: 1fr; gap: 20px;">
+                    <div class="blueprint-card">
+                        <h3>1. Instant Differentiation</h3>
+                        <p><strong>The Need:</strong> Manage varying levels of Intrinsic Load across the class.<br>
+                        <strong>The AI Solution:</strong> Generate multiple versions of a text in seconds. This allows me to lower the linguistic barrier (Intrinsic Load) for struggling learners, so they can still access the core concepts and engage in higher-order thinking (Germane Load).</p>
+                    </div>
+                    <div class="blueprint-card">
+                        <h3>2. Authentic Engagement</h3>
+                        <p><strong>The Need:</strong> Connect curriculum to students' lived experiences.<br>
+                        <strong>The AI Solution:</strong> Re-contextualize topics instantly. I can ask AI to explain historical events through a "group chat" format or reframe scientific concepts using analogies from video games or popular culture, making the material immediately more authentic and memorable.</p>
+                    </div>
+                    <div class="blueprint-card">
+                        <h3>3. Scaled Assessment</h3>
+                        <p><strong>The Need:</strong> Provide timely, meaningful feedback on student work.<br>
+                        <strong>The AI Solution:</strong> Create tailored assessment tools. I can ask AI to generate a B1-level quiz on a text, or to create a rubric for a project based on specific learning objectives. This automates the mechanical parts of assessment, freeing me to focus on providing personalized human feedback.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: ANALYSIS -->
+    <section id="analysis">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Section 6: Final Design Analysis</span>
+                <h2>Carbon Footprint Module</h2>
+                <p>A critical evaluation of my own materials based on the 5 Principles of Design.</p>
+            </div>
+
+            <!-- Animated Footprint Examples -->
+            <div class="footprint-gallery">
+                <div class="footprint-item">
+                    <div class="emission-pulse" style="width: 30px; height: 30px; animation-duration: 3s;"></div>
+                    <span class="footprint-icon">👟</span>
+                    <span class="footprint-label">Sneakers</span>
+                </div>
+                <div class="footprint-item">
+                    <div class="emission-pulse" style="width: 50px; height: 50px; animation-duration: 2s;"></div>
+                    <span class="footprint-icon">🚗</span>
+                    <span class="footprint-label">Car Ride</span>
+                </div>
+                <div class="footprint-item">
+                    <div class="emission-pulse" style="width: 70px; height: 70px; animation-duration: 1s; background: rgba(239, 68, 68, 0.4);"></div>
+                    <span class="footprint-icon">🍔</span>
+                    <span class="footprint-label">Beef Burger</span>
+                </div>
+            </div>
+
+            <div class="analysis-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Criteria</th>
+                            <th>Analysis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Context</td>
+                            <td>4th ESO, Mixed ability. Students need to differentiate direct/indirect emissions.</td>
+                        </tr>
+                        <tr>
+                            <td>Objectives</td>
+                            <td><strong>Content:</strong> Define GHGs. <br><strong>Functional:</strong> Analyze sustainable habits.</td>
+                        </tr>
+                        <tr>
+                            <td>Engagement</td>
+                            <td>High. The "Invisible Shadow" riddle creates immediate affective engagement.</td>
+                        </tr>
+                        <tr>
+                            <td>Scaffolding</td>
+                            <td>Strong. The lesson moves from a simple riddle &rarr; definition &rarr; structured game &rarr; reflection.</td>
+                        </tr>
+                        <tr>
+                            <td>Authenticity</td>
+                            <td>High. Connects CO2 to students' sneakers, Netflix usage, and diet.</td>
+                        </tr>
+                        <tr>
+                            <td>Differentiation</td>
+                            <td>Effective. The L2/L3 worksheet system allows for different entry points, managing intrinsic load for a mixed-ability class.</td>
+                        </tr>
+                        <tr>
+                            <td>Cognitive Load</td>
+                            <td>Well-managed. Extraneous load is low due to clear instructions and a gamified structure. The game itself promotes high germane load (strategic thinking).</td>
+                        </tr>
+                        <tr>
+                            <td>Improvement</td>
+                            <td>The next iteration could include a digital component where students use a real carbon calculator app and compare their game results to the real-world data.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p class="footer-quote">My journey as a learning architect is ongoing. I am always seeking new blueprints, stronger materials, and better designs to build more effective and engaging learning experiences.</p>
+        </div>
+    </footer>
+
+    <script>
+        const intrinsicSlider = document.getElementById('range-intrinsic');
+        const extraneousSlider = document.getElementById('range-extraneous');
+        const germaneSlider = document.getElementById('range-germane');
+        
+        const barIntrinsic = document.getElementById('bar-intrinsic');
+        const barExtraneous = document.getElementById('bar-extraneous');
+        const barGermane = document.getElementById('bar-germane');
+        
+        const valIntrinsic = document.getElementById('val-intrinsic');
+        const valExtraneous = document.getElementById('val-extraneous');
+        const valGermane = document.getElementById('val-germane');
+        
+        const feedback = document.getElementById('load-feedback');
+
+        function updateLoad() {
+            const iVal = parseInt(intrinsicSlider.value);
+            const eVal = parseInt(extraneousSlider.value);
+            const gVal = parseInt(germaneSlider.value);
+            const total = iVal + eVal + gVal;
+
+            valIntrinsic.textContent = iVal + '%';
+            valExtraneous.textContent = eVal + '%';
+            valGermane.textContent = gVal + '%';
+
+            barIntrinsic.style.width = iVal + '%';
+            barExtraneous.style.width = eVal + '%';
+            barGermane.style.width = gVal + '%';
+
+            if (total > 100) {
+                if (iVal > 60) {
+                    feedback.innerHTML = "<strong>⚠️ COGNITIVE OVERLOAD (" + total + "%)</strong><br><strong>Diagnosis:</strong> The structural weight is too heavy. The material is inherently difficult (High Intrinsic Load).<br><strong>Action Required:</strong> You cannot 'design' your way out of this. You must <strong>scaffold</strong>: break concepts into chunks, use analogies, or pre-teach vocabulary.";
+                } else {
+                    feedback.innerHTML = "<strong>⚠️ COGNITIVE OVERLOAD (" + total + "%)</strong><br><strong>Diagnosis:</strong> The Working Memory 'bucket' is overflowing. Combined weight exceeds capacity. Learning has stopped.<br><strong>Action Required:</strong> Immediate triage. Eliminate Extraneous Load (distractions) first. Then check if the task is too difficult.";
+                }
+                feedback.style.borderLeftColor = "#ef4444";
+                feedback.style.backgroundColor = "#fef2f2";
+            } else if (eVal > 30) {
+                feedback.innerHTML = "<strong>⚠️ High Distraction</strong><br>Extraneous load is critically high. The design is competing for attention against the content. Students are using mental energy to filter out distractions (clutter, confusing fonts, unclear instructions) instead of learning.<br><strong>Action Required:</strong> Simplify the visual hierarchy, remove non-essential decorative elements, and clarify instructions to reduce this 'bad' load.";
+                feedback.style.borderLeftColor = "#f59e0b";
+                feedback.style.backgroundColor = "#fffbeb";
+            } else if (gVal < 20 && total < 80) {
+                feedback.innerHTML = "<strong>ℹ️ Passive Learning (Under-utilized)</strong><br><strong>Diagnosis:</strong> The room is empty. Students have mental energy available, but aren't asked to use it.<br><strong>Action Required:</strong> Increase Germane Load. Add 'Desirable Difficulties': ask open-ended questions, require synthesis, or solve problems.";
+                feedback.style.borderLeftColor = "#3b82f6";
+                feedback.style.backgroundColor = "#eff6ff";
+            } else if (iVal > 80) {
+                feedback.innerHTML = "<strong>⚠️ Structural Failure Imminent</strong><br><strong>Diagnosis:</strong> Intrinsic Load is crushing. The concept is too abstract for the learner's current level.<br><strong>Action Required:</strong> Deploy heavy scaffolding. Use worked examples, graphic organizers, or step-by-step guides.";
+                feedback.style.borderLeftColor = "#f59e0b";
+                feedback.style.backgroundColor = "#fffbeb";
+            } else {
+                feedback.innerHTML = "<strong>✅ Optimal Learning Architecture</strong><br><strong>Diagnosis:</strong> The 'Sweet Spot'. Distractions are low, difficulty is managed, creating space for deep thinking.<br><strong>Result:</strong> Students are actively constructing schemas and storing information in Long Term Memory.";
+                feedback.style.borderLeftColor = "#10b981";
+                feedback.style.backgroundColor = "#ecfdf5";
+            }
+        }
+
+        intrinsicSlider.addEventListener('input', updateLoad);
+        extraneousSlider.addEventListener('input', updateLoad);
+        germaneSlider.addEventListener('input', updateLoad);
+
+        updateLoad();
+    </script>
+</body>
+</html>
