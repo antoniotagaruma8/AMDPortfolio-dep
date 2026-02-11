@@ -143,15 +143,34 @@
             border-left: 3px solid var(--accent-color);
         }
 
-        .philosophy-img {
+        .photo-stack-container {
+            position: relative;
             width: 100%;
             height: 400px;
-            background-color: #ddd;
-            background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800');
-            background-size: cover;
-            background-position: center;
+            margin-top: 20px;
+        }
+        .photo-card {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
             border-radius: 4px;
             box-shadow: 10px 10px 0px var(--primary-color);
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+        }
+        .photo-card:nth-child(1) { z-index: 3; transform: rotate(-2deg); }
+        .photo-card:nth-child(2) { z-index: 2; transform: rotate(3deg); }
+        .photo-card:nth-child(3) { z-index: 1; transform: rotate(-1deg); }
+        .photo-card.swiped {
+            transform: translateY(-120%) rotate(-10deg) !important;
+            opacity: 0; pointer-events: none;
+        }
+        .swipe-instruction {
+            text-align: center; font-family: var(--font-mono);
+            font-size: 0.75rem; color: var(--text-dark);
+            margin-top: 15px; opacity: 0.7;
         }
 
         /* --- SECTION 2: FOUNDATIONS (Cards) --- */
@@ -670,7 +689,13 @@
                     </div>
                 </div>
                 <div class="philosophy-visual">
-                    <div class="philosophy-img" title="Teacher presenting in a clean environment"></div>
+                    <div class="photo-stack-container" id="photoStack">
+                        <!-- TODO: Update these URLs to point to your files in the 'photos' folder -->
+                        <div class="photo-card" style="background-image: url('photos/photo1.jpeg');"></div>
+                        <div class="photo-card" style="background-image: url('photos/photo2.jpeg');"></div>
+                        <div class="photo-card" style="background-image: url('photos/photo3.jpeg');"></div>
+                    </div>
+                    <div class="swipe-instruction">👆 Click to swipe photos</div>
                 </div>
             </div>
         </div>
@@ -1067,6 +1092,7 @@
                     <a href="https://drive.google.com/drive/folders/1vrUlTS1AEkA8zaMms4-OwCnMXXcKR0Ey?usp=sharing" class="file-link">📄 Week 2 Documentation</a>
                     <a href="https://drive.google.com/drive/folders/153K6mEZCxmDjvqoPWlnn3-FsNb-z2aYe?usp=drive_link" class="file-link">📄 Week 3 Documentation</a>
                     <a href="https://drive.google.com/drive/folders/1BZtrG8NYSUFa9gcWqmssfyz9JgR2rZS0?usp=drive_link" class="file-link">📄 Week 4 Documentation</a>
+                    <a href="photos/Citations.pdf" class="file-link" target="_blank">📄 Citations Document</a>
                 </div>
             </div>
             <hr style="margin-top: 20px; border: none; border-top: 1px solid rgba(255,255,255,0.1);">
@@ -1150,6 +1176,23 @@
         germaneSlider.addEventListener('input', updateLoad);
 
         updateLoad();
+
+        // Photo Stack Interaction
+        const stack = document.getElementById('photoStack');
+        if (stack) {
+            const cards = stack.querySelectorAll('.photo-card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.add('swiped');
+                    // Reset stack if all are swiped
+                    if (!stack.querySelector('.photo-card:not(.swiped)')) {
+                        setTimeout(() => {
+                            cards.forEach(c => c.classList.remove('swiped'));
+                        }, 800);
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>
